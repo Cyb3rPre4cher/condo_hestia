@@ -47,7 +47,7 @@ services:
            -c synchronous_commit=on
     volumes:
       - postgres-master-data:/var/lib/postgresql/data
-      - ./docker-compose-postgresql-init-replication.sql:/docker-entrypoint-initdb.d/docker-compose-postgresql-init-replication.sql
+     # - ./docker-compose-postgresql-init-replication.sql:/docker-entrypoint-initdb.d/docker-compose-postgresql-init-replication.sql
     networks:
       - app-network
     healthcheck:
