@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  test:
+    image: alpine
+    command: ["ls", "-l", "/docker-entrypoint-initdb.d/"]
+    volumes:
+      - ./init-scripts/:/docker-entrypoint-initdb.d/
