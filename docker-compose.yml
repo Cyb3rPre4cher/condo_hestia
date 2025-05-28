@@ -34,11 +34,11 @@ services:
   postgresdb-master:
     <<: *postgres-common
     ports:
-      - "127.0.0.1:5432:5432"
+      - "127.0.0.1:5434:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: main
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: condo_admin
+      POSTGRES_DB: condo_prod
+      POSTGRES_PASSWORD: UnoS1ch3r0_PW!
       POSTGRES_HOST_AUTH_METHOD: "scram-sha-256\nhost replication all 0.0.0.0/0 scram-sha-256"
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
       command: |
@@ -46,6 +46,7 @@ services:
            -c wal_level=replica
            -c synchronous_commit=on
     volumes:
+      - postgres-master-data:/var/lib/postgresql/data
       - ./docker-compose-postgresql-init-replication.sql:/docker-entrypoint-initdb.d/docker-compose-postgresql-init-replication.sql
     networks:
       - app-network
@@ -71,6 +72,8 @@ services:
       fi
       postgres -c max_connections=2000
       "
+    volumes:
+    - postgres-replica-data:/var/lib/postgresql/data
     networks:
       - app-network
     depends_on:
@@ -182,6 +185,8 @@ volumes:
   valkey-data-1: {}
   valkey-data-2: {}
   valkey-data-3: {}
+  postgres-master-data: {}
+  postgres-replica-data: {}
 configs:
   valkey.conf:
     content: |
